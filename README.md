@@ -1,1 +1,1 @@
-# SOC-Detection-Labect
+# SOC-Detection-Lab
