@@ -2,7 +2,7 @@
 
 ## Objective
 
-The SOC Detection Lab project was created to simulate real-world cyber threat detection within a controlled environment. The primary objective was to ingest and analyze Apache access logs using a Security Information and Event Management (SIEM) system (Splunk), in order to detect signs of brute-force attacks, unauthorized access, and reconnaissance behavior. 
+The SOC Detection Lab project was created to simulate a real world cyber threat detection within a controlled environment. The primary objective was to ingest and analyze Apache access logs using a Security Information and Event Management (SIEM) system (Splunk), in order to detect signs of brute-force attacks, unauthorized access, and reconnaissance behavior. 
 ### Skills Learned
 
 
