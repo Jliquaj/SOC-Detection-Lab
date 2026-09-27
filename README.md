@@ -1,20 +1,20 @@
-# SOC DETECTION LAB
+# SOC Detection Lab
 
 ## Objective
 
-The SOC Detection Lab project was created to simulate a real world cyber threat detection within a controlled environment. The primary objective was to ingest and analyze Apache access logs using a Security Information and Event Management (SIEM) system (Splunk), in order to detect signs of brute-force attacks, unauthorized access, and reconnaissance behavior. 
-### Skills Learned
+This lab uses a 50-entry sample Apache access log in Splunk to practice investigating authentication errors and requests to sensitive paths. I used field extraction, searches, and visualizations to identify activity worth reviewing. The sample does not include request bodies, user identities, or application authentication records, so the HTTP status codes alone cannot confirm a brute-force attack or unauthorized access. 
+### Skills practiced
 
 
 - Proficiency in analyzing and interpreting Apache access logs to identify suspicious patterns and potential threats.
 - Strong understanding of HTTP status codes and their significance in identifying malicious behavior.
-- Ability to generate and recognize attack signatures and patterns.
-- Built and executed queries to investigate attack signatures and uncover trends in failed login attempts or unauthorized access.
+- Identifying patterns that warrant follow-up investigation without treating them as confirmed attacks.
+- Using searches to group HTTP errors and requests to sensitive paths by client IP and time.
 - Practiced documenting threats clearly with screenshots, search queries, and written explanations of what was observed.
 
 ### Tools Used
 
-- SPLUNK
+- Splunk
 - Apache Access Logs
 
 
@@ -28,11 +28,11 @@ The SOC Detection Lab project was created to simulate a real world cyber threat 
 This screenshot shows the raw Apache access log entries successfully ingested into Splunk. It includes detailed fields such as timestamps, IP addresses, HTTP methods, status codes, and requested endpoints. This is the foundational step in the detection process, allowing me to visually inspect what types of requests were made and begin identifying abnormal or suspicious patterns.
 
 
-### Ref 2: Brute-Force Detection (401 Errors)
+### Ref 2: Reviewing 401 responses
 
 ![Brute-Force Detection (401 Errors)](401%20errors.jpeg)
 
-This screenshot shows the results of a Splunk query designed to detect brute-force login attempts using HTTP status codes. It identifies IP addresses that failed authentication and groups them by the number of failed login attempts. This behavior may indicate someone attempting to guess login credentials repeatedly a classic sign of brute-force activity.
+This screenshot groups `401 Unauthorized` responses by client IP. A 401 response is a useful starting point for authentication review, but the sample is too small to establish repeated credential guessing. I would compare the request path, timing, source, and application sign-in records before drawing a conclusion.
 
 ### Ref 3: Field Extraction with Rex
 
@@ -46,19 +46,19 @@ This screenshot shows the results of a Splunk query designed to detect brute-for
 ![Reconnaissance Path Detection](reconnaissance.jpeg)
 
 
-This screenshot shows activity consistent with reconnaissance. Multiple IP addresses attempted to access sensitive endpoints like `/admin`, `/config`, and `/wp-login.php`, which are often targeted during web application scanning. Identifying these requests helped highlight potential pre-attack activity in the logs.
+This screenshot highlights requests to paths such as `/admin`, `/config`, and `/wp-login.php`. Those paths merit closer review, especially when requests cluster by source and time. The paths alone do not establish reconnaissance or malicious intent.
 
 ### Ref 5: Visual IP-to-Path Breakdown
 
 ![Visual IP-to-Path Breakdown](ref7-clientip-path-bar-chart.jpeg)
 
-This bar chart displays the number of times each IP address accessed specific paths such as `/config`, `/wp-login.php`, and `/admin`. This helped me quickly identify which clients were repeatedly targeting sensitive endpoints — a visual clue that supports detection of scanning or brute-force behavior.
+This chart compares client IPs and requested paths such as `/config`, `/wp-login.php`, and `/admin`. It helps prioritize sources for follow-up review; the counts alone do not prove scanning or brute-force behavior.
 
 ### Ref 6: Timechart of Status Codes
 
 ![Timechart of Status Codes](ref8-status-timechart-visual.jpeg)
 
-This timechart visualizes the frequency of different HTTP status codes over time. By analyzing trends such as spikes in `401` (Unauthorized) or `404` (Not Found) responses, I was able to identify when suspicious activity—such as brute-force attempts or reconnaissance—was most active in the logs.
+This timechart visualizes the frequency of different HTTP status codes over time. The chart shows when `401` (Unauthorized) and `404` (Not Found) responses occurred in this sample. With only 50 entries, a short-term increase is a lead to investigate rather than evidence of a specific attack.
 
 
 
